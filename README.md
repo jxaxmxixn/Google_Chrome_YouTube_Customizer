@@ -12,8 +12,9 @@ Simple YouTube Video Feed Customizer Addon for Google Chrome
 * Places "Watched" videos at the bottom of the queue (if there are multiple)
 *
 **/
-------------------------------------------------------------
+
+**------------------------------------------------------------
 I was frustrated with the YouTube feed (specifically the subscriptions feed)
 So I very quickly wrote this Google Chrome addon to fix it...
 It works pretty well, but isn't perfect...
-Feel free to join this project and improve the code or functionality.
+Feel free to join this project and improve the code or functionality.**
