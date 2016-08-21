@@ -9,8 +9,8 @@ Simple YouTube Video Feed Customizer Addon for Google Chrome
 * Combines channels videos (using scroling) with 2+ videos in a section
 * Moves "Watched" videos from main video displayed (where possible)
 * Adds a +#(\u2193 down arrow) notifier letting you know how many more vids there are
-* Very rough for simple functionality
 * Places "Watched" videos at the bottom of the queue (if there are multiple)
+* Very rough for simple yet effective functionality
 
 
 **I was frustrated with the YouTube feed (specifically the subscriptions feed)
