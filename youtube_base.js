@@ -5,6 +5,7 @@
 * Combines channels videos (using scroling) with 2+ videos in a section
 * Moves "Watched" videos from main video displayed (where possible)
 * Adds a +#(\u2193 down arrow) notifier letting you know how many more vids there are
+* Places "Watched" videos at the bottom of the queue (if there are multiple)
 * Very rough for simple functionality
 *
 **/
@@ -44,6 +45,7 @@ jQuery(document).ready(function($){
 			});
 			
 			for(var key in users){ //unique channels per section
+				if(users[key][0]['obj'].parents('.multirow-shelf').length == 0){break;}//not slider rows
 				if(users[key].length > 1){ //only channels with 2+ videos in section
 					found = 0;
 					
