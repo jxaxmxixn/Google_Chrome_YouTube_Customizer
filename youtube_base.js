@@ -12,6 +12,17 @@
 
 $.noConflict();
 jQuery(document).ready(function($){
+
+	Rules = [".yt-lockup-video::-webkit-scrollbar{width:6px !important; height:6px !important;}",
+			".yt-lockup-video::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);}",
+			".yt-lockup-video:hover::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);}",
+			".yt-lockup-video::-webkit-scrollbar-thumb {background: rgba(255,0,0,0.3);" +
+			"-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);width:4px !important;}",
+			".yt-lockup-video:hover::-webkit-scrollbar-thumb {background: rgba(255,0,0,0.9);}"];
+			$(Rules).each(function(ind, rule){
+				document.styleSheets[0].insertRule(rule,0);
+			});
+
 	running = false; //to make sure code isn't over running
 	organizer = function(){
 		if(running == true){return};
@@ -27,8 +38,7 @@ jQuery(document).ready(function($){
 				channel = $(this).find('div.yt-lockup-byline .g-hovercard.yt-uix-sessionlink.spf-link');
 				
 				if(channel){	
-					user = $(channel[0]).text();
-					
+					user = $(channel[0]).text();		
 					//make the channel (user) name more readable
 					$(this).prepend($('<div>').css({
 						fontWeight:'bold',color:'#222',fontSize:'1.5em'
@@ -39,40 +49,48 @@ jQuery(document).ready(function($){
 					users[user].push({
 						'obj':$(this),
 						'watched':$(this).find('.watched-badge').length
-					});	
-					
+					});		
 				}	
 			});
 			
 			for(var key in users){ //unique channels per section
 				if(users[key][0]['obj'].parents('.multirow-shelf').length == 0){break;}//not slider rows
-				if(users[key].length > 1){ //only channels with 2+ videos in section
-					found = 0;
-					
+				if(users[key].length > 1){ //only channels with 2+ videos in section			
 					//move watched to the bottom of the list order
 					users[key].sort(function(a,b){
 						return a['watched'] - b['watched'];
-					});
-					
+					});			
+					watched_count = 0; found = 0; got_one = false;
 					for(var ind in users[key]){
-						target = users[key][ind];
-						if(target['watched'] == 0){	found = ind; break;}
+						if(users[key][ind]['watched'] == 0){	
+							if(got_one == false){
+								found = ind; got_one = true;
+							}
+						}else{
+							watched_count++;
+						}
 					}
 					target = users[key][found]['obj'];
 					users[key].splice(found,1);
 					count = users[key].length;
 					
+					watched_count = count - watched_count;
+					if(watched_count < 0){watched_count = 0}
 					//number of vids plus down arrow
 					more = $('<div>').css({
 						position:'absolute',right:'0px',bottom:'4px',
-						color:'#0c0',fontWeight:'bold',fontSize:'1.5em'
-					}).text('+' + count + '\u2193'); 
+						color:function(){if(watched_count){return '#0c0'}else{return'#bbb'}},
+						fontWeight:'bold',fontSize:'1.5em'
+					}).text('+' + watched_count + '/' + count + '\u2193'); 
 					
 					target.css({
 						position:'relative',overflowY:'scroll',
-						maxHeight:target.height()
-						});
-						
+						maxHeight:target.height(),
+						'-webkit-scrollbar-width':'100px'
+					});
+					
+					
+										
 					target.append(more);
 					
 					for(var ind in users[key]){
